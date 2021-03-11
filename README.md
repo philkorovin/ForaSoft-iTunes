@@ -1,5 +1,7 @@
 # ForaSoft
 
+![](https://media.giphy.com/media/saaYNU3CBg55pgFbSE/giphy.gif)
+
 The application displays music albums from the iTunes API upon request and the user can view the tracklist, as well as listen to a preview of the desired track.
 
 ## Scope Overview

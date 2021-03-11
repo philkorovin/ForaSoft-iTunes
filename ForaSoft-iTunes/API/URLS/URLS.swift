@@ -24,9 +24,8 @@ enum URLS {
     static let post: String = "https://ptsv2.com/t/asahiocean_forasoft_itunes/post"
     
     static func encoder(_ string: String) -> URL {
-        let urlString =                     string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ??
-            string.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) ??
-            string
+        let urlString = string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ??
+            string.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) ?? string
         return URL(string: urlString)!
     }
 }
