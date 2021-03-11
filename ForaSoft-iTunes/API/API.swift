@@ -4,7 +4,7 @@ struct API: GETPOST {
     
     static func get(_ urlStr: String, _ completion: @escaping (Data?)->()) {
         let url: URL = URLS.encoder(urlStr)
-        let cache:  NSCache = Storage.cache
+        let cache: NSCache = Storage.cache
         var data: Data? { didSet { completion(data) } }
         
         switch cache.object(forKey: url as NSURL) {
@@ -26,12 +26,9 @@ struct API: GETPOST {
         
         let url: URL = URLS.encoder(urlStr)
         var request = URLRequest(url: url)
+        self.requestConfig(&request, .post)
         
         do {
-            request.httpMethod = "POST"
-            request.networkServiceType = .background
-            request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
-            
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = try JSONSerialization.data(withJSONObject: postbody, options: [.prettyPrinted])
             
@@ -58,6 +55,16 @@ struct API: GETPOST {
 }
 
 extension API {
+    fileprivate enum Method: String {
+        case get = "GET"
+        case post = "POST"
+    }
+    static fileprivate func requestConfig(_ request: inout URLRequest, _ method: Method) {
+        request.httpMethod = method.rawValue
+        request.timeoutInterval = .zero
+        request.networkServiceType = .background
+        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+    }
     static func request(_ string: String) {
         let (disp,queue,group) = (Dispatcher.self,Dispatcher.queues.self,Dispatcher.groups.self)
         
